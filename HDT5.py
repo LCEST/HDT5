@@ -62,3 +62,29 @@ def proceso(env, nombre, CPU, memRAM, inOut, mem, inst):
                             tib = random.randint(1, TIE_IO)
                             yield env.timeout(tib)
                             print(' %s termino proceso I/O en %s' % (nombre, env.now))
+                            
+#Funciona para darlo recursos a los procesos                       
+def recursos(env, numero, inter, CPU, inpOut, memRAM):
+    for i in range(numero):
+        p= proceso(env, 'proceso %s' % i, CPU, memRAM, inOut, random.randint(1,MEM_MAX), random.randint(1,INST_MAX)) 
+        env.process(p)
+        t = random.expovariate(1.0 / inter)
+        yield env.timeout(t)
+
+random.seed(RAND_SEED)
+env = simpy.Environment()
+
+#Empieza el procesos y lo ejecuta
+CPU = simpy.Resource(env, capacity=1)
+inOut = simpy.Resource(env, capacity=1)
+memRAM =simpy.Container(env, 10000, init=10000)
+env.process(recursos(env, NEW_PROS, INT_PROS, CPU, inOut, memRAM))
+env.run()
+
+prom=tieTot/NEW_PROS
+
+print('------------------------------------------------------')
+print('------------------------------------------------------')
+print('El PC demoro %s unidades de tiempo en terminar los procesos pendientes' % (tieTot))
+print ('El promedio de tiempo por proceso es de: %s unidades de tiempo' % (prom))
+print('------------------------------------------------------')
