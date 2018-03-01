@@ -62,7 +62,6 @@ def proceso(env, nombre, CPU, memRAM, inOut, mem, inst):
                             tib = random.randint(1, TIE_IO)
                             yield env.timeout(tib)
                             print(' %s termino proceso I/O en %s' % (nombre, env.now))
-                            
 #Funciona para darlo recursos a los procesos                       
 def recursos(env, numero, inter, CPU, inpOut, memRAM):
     for i in range(numero):
@@ -87,4 +86,5 @@ print('------------------------------------------------------')
 print('------------------------------------------------------')
 print('El PC demoro %s unidades de tiempo en terminar los procesos pendientes' % (tieTot))
 print ('El promedio de tiempo por proceso es de: %s unidades de tiempo' % (prom))
+print('------------------------------------------------------')
 print('------------------------------------------------------')
